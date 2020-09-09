@@ -1,4 +1,4 @@
-package com.ahoubouby.app_2
+package com.ahoubouby.encupsilation.app_2
 
 import akka.actor.Actor
 

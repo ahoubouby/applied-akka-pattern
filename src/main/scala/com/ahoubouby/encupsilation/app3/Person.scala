@@ -1,4 +1,4 @@
-package com.ahoubouby.app3
+package com.ahoubouby.encupsilation.app3
 
 import akka.actor.{Actor, ActorLogging}
 
