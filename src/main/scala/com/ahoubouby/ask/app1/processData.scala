@@ -8,6 +8,7 @@ import scala.concurrent.ExecutionContext
 import akka.util.Timeout
 import akka.pattern.{ask, pipe}
 object events {
+  implicit val timeout: Timeout = 5.seconds
   case class ProcessData(data: String)
   case class DataProcessed(data: String)
 
@@ -23,7 +24,6 @@ class Stage1() extends Actor {
   import scala.concurrent.ExecutionContext
   val nextStage = context.actorOf(Props(new Stage2()))
   implicit val ec: ExecutionContext = context.dispatcher
-  implicit val timeout: Timeout = 5.seconds
 
   override def receive: Receive = {
 
@@ -35,12 +35,10 @@ class Stage1() extends Actor {
 }
 
 class Stage2() extends Actor {
-  import akka.util.Timeout
   import events._
 
   val nextStage = context.actorOf(Props(new Stage3()))
   implicit val ec: ExecutionContext = context.dispatcher
-  implicit val timeout: Timeout = 5.seconds
   override def receive: Receive = {
     case ProcessData(data) =>
       val processedData = processDataStage2(data)
