@@ -1,13 +1,8 @@
-package com.ahoubouby.ask.app1
+package com.ahoubouby.ask.app2
 
-import akka.actor.Actor
-import akka.actor.Props
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext
-import akka.util.Timeout
-import akka.pattern.{ask, pipe}
+import akka.actor.{Actor, Props}
+
 object events {
-  implicit val timeout: Timeout = 5.seconds
   case class ProcessData(data: String)
   case class DataProcessed(data: String)
 
@@ -17,37 +12,29 @@ object events {
 }
 
 class Stage1() extends Actor {
-
   import events._
-
-  import scala.concurrent.ExecutionContext
   val nextStage = context.actorOf(Props(new Stage2()))
-  implicit val ec: ExecutionContext = context.dispatcher
 
   override def receive: Receive = {
 
     case ProcessData(data) =>
       val processedData = processDataStage1(data)
-      val future = (nextStage ? ProcessData(processedData))
-      future.pipeTo(sender())
+      nextStage.forward(ProcessData(processedData))
   }
 }
 
 class Stage2() extends Actor {
   import events._
-
   val nextStage = context.actorOf(Props(new Stage3()))
-  implicit val ec: ExecutionContext = context.dispatcher
   override def receive: Receive = {
     case ProcessData(data) =>
       val processedData = processDataStage2(data)
-      (nextStage ? ProcessData(processedData)).pipeTo(sender())
+      nextStage.forward(ProcessData(processedData))
   }
 }
 
 class Stage3() extends Actor {
   import events._
-
   override def receive: Receive = {
     case ProcessData(data) =>
       val processedData = processDataStage3(data)
