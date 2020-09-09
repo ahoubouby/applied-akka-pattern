@@ -1,4 +1,4 @@
-package com.ahoubouby.ask.app2
+package com.ahoubouby.ask.forward
 
 import akka.actor.{Actor, Props}
 

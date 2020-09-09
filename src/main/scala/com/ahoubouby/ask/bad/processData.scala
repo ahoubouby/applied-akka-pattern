@@ -1,4 +1,4 @@
-package com.ahoubouby.ask.app1
+package com.ahoubouby.ask.bad
 
 import akka.actor.Actor
 import akka.actor.Props
