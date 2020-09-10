@@ -20,9 +20,18 @@ class Printer extends GraphStage[SinkShape[Int]] {
 
   override def createLogic(inheritedAttributes: Attributes): GraphStageLogic = {
     new GraphStageLogic(shape) {
+
+      import akka.stream.stage.InHandler
+
       override def preStart(): Unit = {
         pull(in)
       }
+      setHandler(in, new InHandler {
+        override def onPush(): Unit = {
+          println(grab(in))
+          pull(in)
+        }
+      })
     }
   }
 
