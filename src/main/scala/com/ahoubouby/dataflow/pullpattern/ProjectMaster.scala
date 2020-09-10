@@ -42,6 +42,7 @@ class ProjectMaster(repo: ProjectRepo, pollingInterval: FiniteDuration)
           "next Project not found send self messafe to check for work for actorRef = {}",
           worker
         )
+        //todo take care of Cancellable delay
         context.system.scheduler
           .scheduleOnce(pollingInterval, self, CheckForWork(worker))
 //        self ! CheckForWork(worker)
