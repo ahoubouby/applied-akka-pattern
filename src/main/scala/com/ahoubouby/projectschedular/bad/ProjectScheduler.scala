@@ -6,6 +6,9 @@ sealed trait Command
 sealed trait Event
 
 object ProjectScheduler {
+
+  import akka.actor.{ActorRef, Props}
+
   case class SchedulerProject(project: Project) extends Command
   case class ProjectScheduler(project: Project) extends Event
 
