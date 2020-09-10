@@ -2,10 +2,14 @@ package com.ahoubouby.streams
 
 import akka.stream.SourceShape
 import akka.stream.stage.GraphStage
+import akka.stream.javadsl.Sink
 
 object sources extends App {
 
+  import akka.stream.javadsl.Source
+
   val randomIntegers = new RandomIntegers()
+
 }
 
 class RandomIntegers extends GraphStage[SourceShape[Int]] {
