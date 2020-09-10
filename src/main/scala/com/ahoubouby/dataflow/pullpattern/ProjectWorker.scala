@@ -11,10 +11,17 @@ object ProjectWorker {
 }
 
 class ProjectWorker(projectMaster: ActorRef) extends Actor with ActorLogging {
+  import ProjectWorker._
 
-  override def receive: Receive = ???
+  projectMaster ! ProjectMaster.RegisterWorker(self)
+  override def receive: Receive = {
+    case ScheduleProject(project) =>
+      scheduleProject(project)
+      log.info("project was called project = {}", project)
+      projectMaster ! ProjectScheduled(project)
+  }
 
   private def scheduleProject(project: Project) = {
-    ???
+    Project(project.id, s"${project.name}-was-in-worker")
   }
 }
