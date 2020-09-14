@@ -8,9 +8,10 @@ import com.ahoubouby.streams.repositories.{
   Schedule,
   ScheduleRepository
 }
+
 object streams {
 
-  import akka.{Done, NotUsed}
+  import akka.Done
   import akka.actor.ActorSystem
   import akka.stream.ActorMaterializer
 
@@ -21,6 +22,7 @@ object streams {
 
   val toEmailAddress = Flow[String].map(str => EmailAddress(str))
   val parrlism = 1
+
   val personRepository = new PersonRepository {
 
     import com.ahoubouby.streams.repositories.Person
